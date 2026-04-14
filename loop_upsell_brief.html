@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loop AI — Upsell Directions</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090d;--s1:#0f1018;--s2:#161820;--s3:#1d1f2a;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.11);
+  --text:#dde0ee;--muted:#636680;--subtle:#2a2c3a;
+  --lime:#b8f55a;--teal:#3ddbbe;
+  --font:'Manrope',sans-serif;--serif:'Instrument Serif',serif;--mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(8,9,13,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:8px}
+.nav-badge{width:22px;height:22px;background:var(--lime);border-radius:5px;display:grid;place-items:center;font-size:11px;font-weight:700;color:#080809}
+.nav-name{font-size:13px;font-weight:700;letter-spacing:-0.2px}
+.nav-sep{width:1px;height:14px;background:var(--border2);margin:0 10px}
+.nav-label{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.nav-links{display:flex;gap:24px}
+.nav-link{font-size:12px;color:var(--muted);text-decoration:none;font-weight:500}
+.nav-link:hover{color:var(--text)}
+
+/* HERO */
+.hero{max-width:720px;margin:0 auto;padding:80px 40px 60px}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;color:var(--lime);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px}
+.hero-title{font-family:var(--serif);font-size:44px;line-height:1.1;letter-spacing:-0.5px;margin-bottom:20px;font-weight:400}
+.hero-title em{font-style:italic;color:var(--lime)}
+.hero-body{font-size:14px;color:var(--muted);line-height:1.7;max-width:580px}
+
+/* DIVIDER */
+.section-divider{max-width:720px;margin:0 auto;padding:0 40px}
+.divider-line{height:1px;background:var(--border)}
+
+/* CONTEXT */
+.context{max-width:720px;margin:0 auto;padding:52px 40px}
+.context-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px}
+.shortlist{display:flex;flex-direction:column;gap:8px;margin-bottom:32px}
+.shortlist-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--s1);border:1px solid var(--border);border-radius:9px}
+.si-num{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px;min-width:18px}
+.si-content{flex:1}
+.si-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.si-desc{font-size:12px;color:var(--muted);line-height:1.45}
+.si-tag{display:inline-block;margin-top:5px;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:3px}
+.tag-selected{background:rgba(184,245,90,0.1);color:var(--lime);border:1px solid rgba(184,245,90,0.2)}
+.tag-passed{background:var(--s3);color:var(--muted)}
+.si-reason{font-size:11px;color:var(--muted);margin-top:4px;font-style:italic}
+
+/* SELECTION CALLOUT */
+.selection-note{background:var(--s2);border:1px solid var(--border2);border-radius:10px;padding:16px 20px;margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6}
+.selection-note strong{color:var(--text);font-weight:600}
+
+/* DEMO SECTIONS */
+.demo-section{padding:52px 0 0}
+.demo-inner{max-width:720px;margin:0 auto;padding:0 40px;margin-bottom:20px}
+.demo-tag{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px}
+.demo-title{font-family:var(--serif);font-size:28px;font-weight:400;letter-spacing:-0.3px;margin-bottom:10px;line-height:1.2}
+.demo-title em{font-style:italic}
+.bullets{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:0}
+.bullets li{font-size:13px;color:var(--muted);padding-left:18px;position:relative;line-height:1.5}
+.bullets li::before{content:'—';position:absolute;left:0;color:var(--subtle)}
+.bullets li strong{color:var(--text);font-weight:600}
+
+/* IFRAME EMBED */
+.demo-frame-wrap{width:100%;height:660px;border-top:1px solid var(--border);background:var(--bg);position:relative}
+.demo-frame-wrap iframe{width:100%;height:100%;border:none;display:block}
+
+/* FOOTER */
+footer{max-width:720px;margin:0 auto;padding:60px 40px 80px;border-top:1px solid var(--border);margin-top:60px}
+.footer-note{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.6}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-badge">L</div>
+    <span class="nav-name">Loop AI</span>
+    <div class="nav-sep"></div>
+    <span class="nav-label">upsell-directions.html</span>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="#context">Context</a>
+    <a class="nav-link" href="#pricing">Pricing Agent</a>
+    <a class="nav-link" href="#inventory">Inventory Agent</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Internal — Loop AI Product Exploration</div>
+  <h1 class="hero-title">Two new agents.<br><em>Bigger contracts.</em></h1>
+  <p class="hero-body">Loop currently gives restaurant chains five things: 3PD financial reconciliation, automated bookkeeping, chargeback recovery, store availability monitoring, and delivery marketing analytics. It's a strong back-office layer — but the value delivered is largely defensive. The question we explored: what can Loop build on top of the data it already has to go on offence — driving measurable revenue upside or cost reduction for existing customers, and growing ACV without adding new logos?</p>
+</div>
+
+<div class="section-divider"><div class="divider-line"></div></div>
+
+<div class="context" id="context">
+  <div class="context-label">What we explored</div>
+
+  <div class="shortlist">
+    <div class="shortlist-item">
+      <div class="si-num">01</div>
+      <div class="si-content">
+        <div class="si-title">Automated monthly close</div>
+        <div class="si-desc">Extend 3PD reconciliation into full-cycle book closing — auto-post all daily sales journal entries across every channel, not just 3PD.</div>
+        <div><span class="si-tag tag-passed">Passed</span></div>
+        <div class="si-reason">R365 already owns this for most enterprise chains. Crowded. Better as a partnership than a product.</div>
+      </div>
+    </div>
+    <div class="shortlist-item">
+      <div class="si-num">02</div>
+      <div class="si-content">
+        <div class="si-title">Vendor invoice price compliance</div>
+        <div class="si-desc">Ingest Sysco/US Foods invoices, compare line-item prices against contracted rates, auto-dispute overcharges.</div>
+        <div><span class="si-tag tag-passed">Passed</span></div>
+        <div class="si-reason">New document ingestion pipeline required. Ottimate and Plate IQ already in market with decent penetration. Moderate differentiation for the build effort.</div>
+      </div>
+    </div>
+    <div class="shortlist-item">
+      <div class="si-num">03</div>
+      <div class="si-content">
+        <div class="si-title">Delivery-demand staffing signal</div>
+        <div class="si-desc">Use Loop's 3PD order forecasts to flag kitchen staffing gaps before they cause downtime and chargebacks — "Thursday evening is projected 35% above your typical staffing level at Store 7."</div>
+        <div><span class="si-tag tag-passed">Passed</span></div>
+        <div class="si-reason">Differentiated signal, but sits awkwardly between Loop's finance/ops buyer and an HR/scheduling buyer. Scheduling tools are saturated. Better as a feature than a standalone product.</div>
+      </div>
+    </div>
+    <div class="shortlist-item">
+      <div class="si-num">04</div>
+      <div class="si-content">
+        <div class="si-title">Autonomous Pricing Agent</div>
+        <div class="si-desc">Agent that manages menu prices across all 3PD platforms continuously — A/B tests prices across locations, learns elasticity from network-wide data, applies optimal pricing within operator-set bounds. No manual input required.</div>
+        <div><span class="si-tag tag-selected">Selected ✓</span></div>
+        <div class="si-reason">Directly grows revenue. Loop already has all the data needed — order history, item-level volume, platform financials. No incumbent is using 3PD demand signal and cross-brand elasticity data to price this way. Highest alpha on the top line.</div>
+      </div>
+    </div>
+    <div class="shortlist-item">
+      <div class="si-num">05</div>
+      <div class="si-content">
+        <div class="si-title">Inventory + Predictive Ordering Agent</div>
+        <div class="si-desc">Perpetual inventory model using 3PD demand as the primary forecasting signal. Agent predicts ingredient requirements, accounts for waste and variance, and submits orders directly to Sysco/US Foods.</div>
+        <div><span class="si-tag tag-selected">Selected ✓</span></div>
+        <div class="si-reason">Directly reduces cost. Food is 28–32% of revenue — the single largest cost line. Existing ordering tools use POS data; none use forward-looking 3PD demand signal. Clear ROI, same buyer, no strong incumbent in this specific approach.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="selection-note">
+    The two selected options were picked on three criteria: <strong>Loop already has the data</strong> to build a first version without new integrations; <strong>same buyer</strong> — the CFO or VP Ops already in the room; and <strong>highest outcome</strong> — one directly grows revenue, the other directly cuts the largest cost line. Both have no meaningful incumbent using 3PD demand signal as the core input.
+  </div>
+</div>
+
+<div class="section-divider"><div class="divider-line"></div></div>
+
+<!-- PRICING DEMO -->
+<div class="demo-section" id="pricing">
+  <div class="demo-inner">
+    <div class="demo-tag" style="color:var(--lime)">01 — Pricing Agent</div>
+    <h2 class="demo-title">Loop prices your menu.<br><em>Continuously. Autonomously.</em></h2>
+    <ul class="bullets">
+      <li><strong>Not a dashboard</strong> — agent acts within operator-set bounds (±20%), no manual approval needed per change</li>
+      <li><strong>A/B testing built in</strong> — every price change is an experiment; agent splits stores into variants, measures demand response, applies winner when statistically significant</li>
+      <li><strong>Cross-brand elasticity</strong> — 300+ brands × 90 days = real measured elasticity per item category, not guesses</li>
+      <li><strong>Daypart + weather-reactive</strong> — Friday 8pm pricing is different from Monday lunch; rain forecasts lift prices on high-demand items</li>
+      <li><strong>Legal</strong> — time/demand-based only, no consumer profiling; same model airlines, hotels, Uber use. Not "personalized pricing."</li>
+    </ul>
+  </div>
+  <div class="demo-frame-wrap">
+    <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Loop — Pricing Agent&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&amp;family=Syne:wght@400;500;600;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08080b;--s1:#0f0f14;--s2:#16161d;--s3:#1d1d26;
+  --border:rgba(255,255,255,0.055);--border2:rgba(255,255,255,0.10);
+  --text:#e8e8f0;--muted:#64647a;--subtle:#2e2e3a;
+  --lime:#b8f55a;--lime-dim:rgba(184,245,90,0.08);--lime-border:rgba(184,245,90,0.2);
+  --amber:#f5a623;--amber-dim:rgba(245,166,35,0.08);
+  --red:#ff5e5e;--red-dim:rgba(255,94,94,0.08);
+  --blue:#5b9cf6;--blue-dim:rgba(91,156,246,0.08);
+  --font:&#x27;Syne&#x27;,sans-serif;--mono:&#x27;DM Mono&#x27;,monospace;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;line-height:1.5;min-height:100vh}
+
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:56px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:20}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:26px;height:26px;background:var(--lime);border-radius:6px;display:grid;place-items:center}
+.logo-mark svg{width:14px;height:14px}
+.logo-text{font-size:15px;font-weight:700;letter-spacing:-0.3px}
+.logo-pipe{width:1px;height:18px;background:var(--border2);margin:0 12px}
+.module-label{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.header-right{display:flex;align-items:center;gap:10px}
+.agent-status{display:flex;align-items:center;gap:7px;padding:5px 12px;background:var(--s2);border:1px solid var(--border2);border-radius:20px;font-size:12px;font-family:var(--mono)}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 6px var(--lime);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.mode-toggle{display:flex;background:var(--s2);border:1px solid var(--border2);border-radius:8px;overflow:hidden}
+.mode-btn{padding:5px 14px;font-size:12px;font-family:var(--font);font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all 0.15s}
+.mode-btn.active{background:var(--lime);color:#080808}
+
+/* LAYOUT */
+.shell{display:grid;grid-template-columns:320px 1fr;height:calc(100vh - 56px)}
+
+/* LEFT PANEL — Agent controls */
+.left{border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column}
+.left-section{padding:18px 18px;border-bottom:1px solid var(--border)}
+.section-label{font-size:10px;font-family:var(--mono);color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px}
+
+/* AGENT MODE CARD */
+.agent-card{background:var(--s2);border:1px solid var(--lime-border);border-radius:10px;padding:16px}
+.agent-card-title{font-size:14px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.agent-card-sub{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px}
+.agent-controls{display:flex;flex-direction:column;gap:8px}
+.control-row{display:flex;align-items:center;justify-content:space-between}
+.control-label{font-size:12px;color:var(--muted)}
+.toggle{width:36px;height:20px;background:var(--s3);border-radius:10px;cursor:pointer;position:relative;border:1px solid var(--border2);transition:background 0.2s}
+.toggle.on{background:var(--lime)}
+.toggle::after{content:&#x27;&#x27;;position:absolute;width:14px;height:14px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left 0.2s}
+.toggle.on::after{left:18px}
+.range-wrap{display:flex;align-items:center;gap:8px}
+input[type=range]{flex:1;height:3px;accent-color:var(--lime)}
+.range-val{font-size:12px;font-family:var(--mono);color:var(--lime);min-width:36px;text-align:right}
+.divider-line{height:1px;background:var(--border);margin:10px 0}
+
+/* EXPERIMENT STATUS */
+.exp-list{display:flex;flex-direction:column;gap:6px}
+.exp-item{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.exp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.exp-name{font-size:12px;font-weight:500}
+.exp-badge{font-size:10px;font-family:var(--mono);padding:2px 7px;border-radius:3px}
+.badge-live{background:rgba(184,245,90,0.12);color:var(--lime)}
+.badge-queue{background:var(--s3);color:var(--muted)}
+.badge-done{background:rgba(91,156,246,0.1);color:var(--blue)}
+.exp-detail{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.exp-progress{height:2px;background:var(--s3);border-radius:1px;margin-top:8px;overflow:hidden}
+.exp-fill{height:100%;border-radius:1px;background:var(--lime);transition:width 1s}
+
+/* MAIN AREA */
+.main{overflow-y:auto;padding:24px}
+
+/* LIVE GRID */
+.live-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+.live-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:14px 16px;position:relative;overflow:hidden}
+.live-card::before{content:&#x27;&#x27;;position:absolute;top:0;left:0;right:0;height:2px}
+.live-card.lime::before{background:var(--lime)}
+.live-card.amber::before{background:var(--amber)}
+.live-card.red::before{background:var(--red)}
+.live-card.blue::before{background:var(--blue)}
+.lc-label{font-size:10px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+.lc-val{font-size:22px;font-weight:700;letter-spacing:-0.5px}
+.lc-sub{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* ITEM PRICING TABLE */
+.table-wrap{background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.table-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.table-title{font-size:13px;font-weight:600}
+.table-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.table-actions{display:flex;gap:8px}
+.tact{padding:5px 12px;border:1px solid var(--border2);border-radius:6px;background:transparent;color:var(--muted);font-size:11px;cursor:pointer;font-family:var(--font);font-weight:500}
+.tact:hover{color:var(--text);border-color:var(--border2)}
+.tact.primary{background:var(--lime);border-color:var(--lime);color:#080808}
+
+table{width:100%;border-collapse:collapse}
+th{padding:8px 16px;font-size:10px;font-weight:500;color:var(--muted);text-align:left;letter-spacing:0.05em;text-transform:uppercase;background:var(--s2);border-bottom:1px solid var(--border);font-family:var(--mono)}
+th:not(:first-child){text-align:right}
+td{padding:11px 16px;border-bottom:1px solid var(--border);font-size:12px}
+td:not(:first-child){text-align:right;font-family:var(--mono)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.012);cursor:pointer}
+tr.item-expanded td{background:rgba(184,245,90,0.03)}
+.detail-row td{padding:0;background:rgba(184,245,90,0.02);border-bottom:1px solid var(--border)}
+
+.item-title{font-weight:600;font-size:13px}
+.item-sub{font-size:11px;color:var(--muted);margin-top:1px;font-family:var(--mono)}
+.platform-stack{display:flex;flex-direction:column;gap:2px;align-items:flex-end}
+.plat-row{display:flex;align-items:center;gap:6px}
+.plat-dot{width:6px;height:6px;border-radius:50%}
+.plat-price{font-size:12px}
+.plat-change{font-size:11px}
+
+.agent-action{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:4px;font-size:11px;font-weight:500;font-family:var(--mono)}
+.aa-auto{background:var(--lime-dim);color:var(--lime);border:1px solid var(--lime-border)}
+.aa-test{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(91,156,246,0.2)}
+.aa-hold{background:var(--s3);color:var(--muted);border:1px solid var(--border)}
+.aa-warn{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,94,94,0.2)}
+
+/* DETAIL EXPAND */
+.detail-inner{padding:16px 18px 20px 28px;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:20px}
+.det-head{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px}
+.det-metric{margin-bottom:10px}
+.det-metric-label{font-size:11px;color:var(--muted);margin-bottom:2px}
+.det-metric-val{font-size:14px;font-weight:600}
+.ab-viz{margin-top:8px}
+.ab-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ab-label{font-size:11px;font-family:var(--mono);color:var(--muted);width:28px}
+.ab-bar-bg{flex:1;height:8px;background:var(--s3);border-radius:2px;overflow:hidden}
+.ab-fill{height:100%;border-radius:2px;transition:width 1.2s ease}
+.ab-val{font-size:11px;font-family:var(--mono);min-width:48px;text-align:right}
+.insight-panel{background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:12px 14px}
+.ins-tag{font-size:10px;font-family:var(--mono);color:var(--lime);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px}
+.ins-text{font-size:12px;line-height:1.55;color:var(--text)}
+.ins-outcome{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ins-outcome-label{font-size:11px;color:var(--muted)}
+.ins-outcome-val{font-size:13px;font-weight:600;color:var(--lime)}
+
+/* DAYPART ROW */
+.daypart-mini{display:flex;gap:3px;justify-content:flex-end}
+.dp-pip{width:18px;height:18px;border-radius:3px;display:grid;place-items:center;font-size:9px;font-family:var(--mono)}
+
+/* ACTIVITY FEED */
+.feed-wrap{background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.feed-head{padding:12px 18px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600}
+.feed-item{display:flex;align-items:flex-start;gap:10px;padding:10px 18px;border-bottom:1px solid var(--border)}
+.feed-item:last-child{border-bottom:none}
+.feed-icon{width:24px;height:24px;border-radius:5px;display:grid;place-items:center;flex-shrink:0;font-size:11px;margin-top:1px}
+.fi-lime{background:var(--lime-dim);color:var(--lime)}
+.fi-blue{background:var(--blue-dim);color:var(--blue)}
+.fi-amber{background:var(--amber-dim);color:var(--amber)}
+.feed-text{flex:1}
+.feed-main{font-size:12px;line-height:1.4}
+.feed-time{font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:2px}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;div class=&quot;logo&quot;&gt;
+    &lt;div class=&quot;logo-mark&quot;&gt;
+      &lt;svg viewBox=&quot;0 0 14 14&quot; fill=&quot;none&quot;&gt;&lt;circle cx=&quot;7&quot; cy=&quot;7&quot; r=&quot;5&quot; stroke=&quot;#080808&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;path d=&quot;M7 4v3l2 1.5&quot; stroke=&quot;#080808&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;span class=&quot;logo-text&quot;&gt;Loop&lt;/span&gt;
+    &lt;div class=&quot;logo-pipe&quot;&gt;&lt;/div&gt;
+    &lt;span class=&quot;module-label&quot;&gt;pricing-agent&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;header-right&quot;&gt;
+    &lt;div class=&quot;agent-status&quot;&gt;
+      &lt;div class=&quot;status-dot&quot;&gt;&lt;/div&gt;
+      &lt;span&gt;Agent active · Dave&#x27;s Hot Chicken&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mode-toggle&quot;&gt;
+      &lt;button class=&quot;mode-btn&quot; id=&quot;btn-suggest&quot; onclick=&quot;setMode(&#x27;suggest&#x27;,this)&quot;&gt;Suggest only&lt;/button&gt;
+      &lt;button class=&quot;mode-btn active&quot; id=&quot;btn-auto&quot; onclick=&quot;setMode(&#x27;auto&#x27;,this)&quot;&gt;Autonomous&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;div class=&quot;shell&quot;&gt;
+
+  &lt;!-- LEFT --&gt;
+  &lt;div class=&quot;left&quot;&gt;
+    &lt;div class=&quot;left-section&quot;&gt;
+      &lt;div class=&quot;section-label&quot;&gt;Agent Configuration&lt;/div&gt;
+      &lt;div class=&quot;agent-card&quot;&gt;
+        &lt;div class=&quot;agent-card-title&quot;&gt;
+          &lt;div class=&quot;status-dot&quot; style=&quot;width:8px;height:8px&quot;&gt;&lt;/div&gt;
+          Autonomous Pricing
+        &lt;/div&gt;
+        &lt;div class=&quot;agent-card-sub&quot;&gt;Agent is actively managing prices across all platforms. It adjusts within your set bounds, runs A/B tests, and learns continuously. You stay in control via the bounds below.&lt;/div&gt;
+        &lt;div class=&quot;agent-controls&quot;&gt;
+          &lt;div class=&quot;control-row&quot;&gt;
+            &lt;span class=&quot;control-label&quot;&gt;Max price increase&lt;/span&gt;
+            &lt;div class=&quot;range-wrap&quot;&gt;
+              &lt;input type=&quot;range&quot; min=&quot;5&quot; max=&quot;40&quot; value=&quot;20&quot; id=&quot;max-up&quot; oninput=&quot;document.getElementById(&#x27;max-up-val&#x27;).textContent=this.value+&#x27;%&#x27;&quot;&gt;
+              &lt;span class=&quot;range-val&quot; id=&quot;max-up-val&quot;&gt;20%&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;control-row&quot;&gt;
+            &lt;span class=&quot;control-label&quot;&gt;Max price decrease&lt;/span&gt;
+            &lt;div class=&quot;range-wrap&quot;&gt;
+              &lt;input type=&quot;range&quot; min=&quot;5&quot; max=&quot;30&quot; value=&quot;10&quot; id=&quot;max-dn&quot; oninput=&quot;document.getElementById(&#x27;max-dn-val&#x27;).textContent=this.value+&#x27;%&#x27;&quot;&gt;
+              &lt;span class=&quot;range-val&quot; id=&quot;max-dn-val&quot;&gt;10%&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;divider-line&quot;&gt;&lt;/div&gt;
+          &lt;div class=&quot;control-row&quot;&gt;
+            &lt;span class=&quot;control-label&quot;&gt;A/B test new prices before applying&lt;/span&gt;
+            &lt;div class=&quot;toggle on&quot; onclick=&quot;this.classList.toggle(&#x27;on&#x27;)&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;control-row&quot;&gt;
+            &lt;span class=&quot;control-label&quot;&gt;Daypart pricing&lt;/span&gt;
+            &lt;div class=&quot;toggle on&quot; onclick=&quot;this.classList.toggle(&#x27;on&#x27;)&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;control-row&quot;&gt;
+            &lt;span class=&quot;control-label&quot;&gt;Weather-reactive pricing&lt;/span&gt;
+            &lt;div class=&quot;toggle on&quot; onclick=&quot;this.classList.toggle(&#x27;on&#x27;)&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;control-row&quot;&gt;
+            &lt;span class=&quot;control-label&quot;&gt;Notify before applying change&lt;/span&gt;
+            &lt;div class=&quot;toggle&quot; onclick=&quot;this.classList.toggle(&#x27;on&#x27;)&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;left-section&quot;&gt;
+      &lt;div class=&quot;section-label&quot;&gt;Live Experiments&lt;/div&gt;
+      &lt;div class=&quot;exp-list&quot; id=&quot;exp-list&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;left-section&quot; style=&quot;border-bottom:none&quot;&gt;
+      &lt;div class=&quot;section-label&quot;&gt;Agent Activity&lt;/div&gt;
+      &lt;div class=&quot;feed-wrap&quot; id=&quot;feed&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- MAIN --&gt;
+  &lt;div class=&quot;main&quot;&gt;
+
+    &lt;div class=&quot;live-grid&quot;&gt;
+      &lt;div class=&quot;live-card lime&quot;&gt;
+        &lt;div class=&quot;lc-label&quot;&gt;Monthly margin uplift&lt;/div&gt;
+        &lt;div class=&quot;lc-val&quot; style=&quot;color:var(--lime)&quot;&gt;+$21,400&lt;/div&gt;
+        &lt;div class=&quot;lc-sub&quot;&gt;Since agent enabled (43d)&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;live-card amber&quot;&gt;
+        &lt;div class=&quot;lc-label&quot;&gt;Active price variants&lt;/div&gt;
+        &lt;div class=&quot;lc-val&quot;&gt;18&lt;/div&gt;
+        &lt;div class=&quot;lc-sub&quot;&gt;Across 6 experiments&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;live-card blue&quot;&gt;
+        &lt;div class=&quot;lc-label&quot;&gt;Prices changed today&lt;/div&gt;
+        &lt;div class=&quot;lc-val&quot;&gt;12&lt;/div&gt;
+        &lt;div class=&quot;lc-sub&quot;&gt;Autonomous · 8 platforms&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;live-card red&quot;&gt;
+        &lt;div class=&quot;lc-label&quot;&gt;Prices awaiting approval&lt;/div&gt;
+        &lt;div class=&quot;lc-val&quot; id=&quot;pending-count&quot;&gt;3&lt;/div&gt;
+        &lt;div class=&quot;lc-sub&quot;&gt;Outside auto-apply threshold&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;table-wrap&quot;&gt;
+      &lt;div class=&quot;table-head&quot;&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;table-title&quot;&gt;Item Pricing — Live State&lt;/div&gt;
+          &lt;div class=&quot;table-sub&quot;&gt;Agent-managed prices with real-time A/B experiments and daypart schedules&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;table-actions&quot;&gt;
+          &lt;button class=&quot;tact&quot;&gt;Filter ▾&lt;/button&gt;
+          &lt;button class=&quot;tact primary&quot; onclick=&quot;approveAll()&quot;&gt;Approve pending (3)&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;table&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th&gt;Item&lt;/th&gt;
+            &lt;th&gt;Current prices by platform&lt;/th&gt;
+            &lt;th&gt;Daypart&lt;/th&gt;
+            &lt;th&gt;Elasticity&lt;/th&gt;
+            &lt;th&gt;30d margin impact&lt;/th&gt;
+            &lt;th&gt;Agent action&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody id=&quot;items-tbody&quot;&gt;&lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const items = [
+  {
+    name:&quot;Nashville Hot Tenders (3pc)&quot;, cat:&quot;Tenders&quot;,
+    platforms:{dd:14.49, ue:14.99, gh:13.99},
+    basePrices:{dd:12.99, ue:12.99, gh:12.99},
+    elasticity:-0.65, marginImpact:4200,
+    action:&quot;auto&quot;, actionLabel:&quot;Auto-adjusted&quot;,
+    daypartEnabled:true,
+    experiment:{
+      name:&quot;Tender price lift&quot;,
+      status:&quot;live&quot;,
+      progress:68,
+      variants:[
+        {label:&quot;A&quot;, price:&quot;$12.99&quot;, orders:310, margin:&quot;+0%&quot;},
+        {label:&quot;B&quot;, price:&quot;$13.99&quot;, orders:302, margin:&quot;+8.2%&quot;},
+        {label:&quot;C&quot;, price:&quot;$14.49&quot;, orders:289, margin:&quot;+10.4%&quot;},
+      ],
+      winner:&quot;C&quot;,
+      insight:&quot;Variant C ($14.49) winning with +10.4% margin and only −6.8% volume drop. Confidence 91%. Agent will apply C to all stores in 3 days.&quot;,
+    }
+  },
+  {
+    name:&quot;Spicy Chicken Sandwich&quot;, cat:&quot;Sandwiches&quot;,
+    platforms:{dd:15.49, ue:14.99, gh:14.49},
+    basePrices:{dd:13.99, ue:13.99, gh:13.99},
+    elasticity:-0.72, marginImpact:3800,
+    action:&quot;auto&quot;, actionLabel:&quot;Auto-adjusted&quot;,
+    daypartEnabled:true,
+    experiment:{
+      name:&quot;Sandwich peak surge&quot;,
+      status:&quot;live&quot;,
+      progress:41,
+      variants:[
+        {label:&quot;A&quot;, price:&quot;$13.99&quot;, orders:520, margin:&quot;+0%&quot;},
+        {label:&quot;B&quot;, price:&quot;$15.49 (peak only)&quot;, orders:498, margin:&quot;+9.1%&quot;},
+      ],
+      winner:null,
+      insight:&quot;Testing peak-hour surge pricing Fri–Sat 6–10pm. Variant B showing +9.1% margin with −4.2% volume loss. Still collecting data — 9 more days.&quot;,
+    }
+  },
+  {
+    name:&quot;Classic Tender Combo (5pc)&quot;, cat:&quot;Combos&quot;,
+    platforms:{dd:19.99, ue:19.99, gh:18.99},
+    basePrices:{dd:18.99, ue:18.99, gh:18.99},
+    elasticity:-0.55, marginImpact:3100,
+    action:&quot;auto&quot;, actionLabel:&quot;Auto-adjusted&quot;,
+    daypartEnabled:false,
+    experiment:{
+      name:&quot;Combo price ceiling&quot;,
+      status:&quot;done&quot;,
+      progress:100,
+      variants:[
+        {label:&quot;A&quot;, price:&quot;$18.99&quot;, orders:840, margin:&quot;+0%&quot;},
+        {label:&quot;B&quot;, price:&quot;$19.99&quot;, orders:832, margin:&quot;+5.5%&quot;},
+      ],
+      winner:&quot;B&quot;,
+      insight:&quot;Experiment complete. $19.99 applied to all platforms. Only −1% volume drop with +5.5% margin gain. Agent locked in new baseline.&quot;,
+    }
+  },
+  {
+    name:&quot;Loaded Fries&quot;, cat:&quot;Sides&quot;,
+    platforms:{dd:6.99, ue:7.49, gh:6.49},
+    basePrices:{dd:8.49, ue:8.49, gh:8.49},
+    elasticity:-1.8, marginImpact:-320,
+    action:&quot;warn&quot;, actionLabel:&quot;Needs review&quot;,
+    daypartEnabled:false,
+    experiment:{
+      name:&quot;Fries removal test&quot;,
+      status:&quot;queue&quot;,
+      progress:0,
+      variants:[
+        {label:&quot;A&quot;, price:&quot;$6.99 (reduced)&quot;, orders:null, margin:null},
+        {label:&quot;B&quot;, price:&quot;Remove from delivery&quot;, orders:null, margin:null},
+      ],
+      winner:null,
+      insight:&quot;Agent flagged negative delivery margin (−2.1%). Reduced price to test volume recovery but recommends full removal from delivery menus. Awaiting your approval to run this experiment.&quot;,
+    }
+  },
+  {
+    name:&quot;Lemonade&quot;, cat:&quot;Drinks&quot;,
+    platforms:{dd:4.49, ue:4.49, gh:4.49},
+    basePrices:{dd:3.99, ue:3.99, gh:3.99},
+    elasticity:-0.4, marginImpact:1800,
+    action:&quot;auto&quot;, actionLabel:&quot;Auto-adjusted&quot;,
+    daypartEnabled:false,
+    experiment:{
+      name:&quot;Drinks category sweep&quot;,
+      status:&quot;done&quot;,
+      progress:100,
+      variants:[
+        {label:&quot;A&quot;, price:&quot;$3.99&quot;, orders:1240, margin:&quot;+0%&quot;},
+        {label:&quot;B&quot;, price:&quot;$4.49&quot;, orders:1236, margin:&quot;+13.1%&quot;},
+      ],
+      winner:&quot;B&quot;,
+      insight:&quot;Drinks confirmed as least price-elastic category. $4.49 applied all platforms. Near-zero volume impact (+13.1% margin). Agent will revisit in 30 days.&quot;,
+    }
+  },
+  {
+    name:&quot;Hot Chicken Slider (2pc)&quot;, cat:&quot;Sandwiches&quot;,
+    platforms:{dd:10.99, ue:10.49, gh:9.99},
+    basePrices:{dd:9.99, ue:9.99, gh:9.99},
+    elasticity:-0.80, marginImpact:2100,
+    action:&quot;test&quot;, actionLabel:&quot;In A/B test&quot;,
+    daypartEnabled:false,
+    experiment:{
+      name:&quot;Slider cross-platform test&quot;,
+      status:&quot;live&quot;,
+      progress:55,
+      variants:[
+        {label:&quot;A&quot;, price:&quot;$9.99 (all)&quot;, orders:380, margin:&quot;+0%&quot;},
+        {label:&quot;B&quot;, price:&quot;$10.99 DD / $10.49 UE / $9.99 GH&quot;, orders:371, margin:&quot;+5.8%&quot;},
+      ],
+      winner:null,
+      insight:&quot;Testing platform-differentiated pricing. DoorDash customers showing higher willingness to pay than Grubhub for this item. Still validating — 7 more days to significance.&quot;,
+    }
+  },
+];
+
+const experiments = [
+  {name:&quot;Tender price lift&quot;, status:&quot;live&quot;, progress:68, item:&quot;Nashville Hot Tenders&quot;},
+  {name:&quot;Sandwich peak surge&quot;, status:&quot;live&quot;, progress:41, item:&quot;Spicy Chicken Sandwich&quot;},
+  {name:&quot;Slider platform split&quot;, status:&quot;live&quot;, progress:55, item:&quot;Hot Chicken Slider&quot;},
+  {name:&quot;Fries removal test&quot;, status:&quot;queue&quot;, progress:0, item:&quot;Loaded Fries&quot;},
+  {name:&quot;Combo price ceiling&quot;, status:&quot;done&quot;, progress:100, item:&quot;Classic Tender Combo&quot;},
+  {name:&quot;Drinks sweep&quot;, status:&quot;done&quot;, progress:100, item:&quot;Lemonade&quot;},
+];
+
+const feedItems = [
+  {icon:&quot;↑&quot;, cls:&quot;fi-lime&quot;, text:&quot;&lt;strong&gt;Nashville Hot Tenders&lt;/strong&gt; price updated to $14.49 on DoorDash (all 47 CA stores). A/B experiment winner applied.&quot;, time:&quot;2 min ago&quot;},
+  {icon:&quot;⚗&quot;, cls:&quot;fi-blue&quot;, text:&quot;New experiment started: &lt;strong&gt;Slider cross-platform pricing&lt;/strong&gt;. 24 stores split across 3 variants.&quot;, time:&quot;18 min ago&quot;},
+  {icon:&quot;↑&quot;, cls:&quot;fi-lime&quot;, text:&quot;&lt;strong&gt;Lemonade&lt;/strong&gt; $3.99 → $4.49 applied across all platforms. Experiment concluded with 99% confidence.&quot;, time:&quot;1h ago&quot;},
+  {icon:&quot;⚠&quot;, cls:&quot;fi-amber&quot;, text:&quot;&lt;strong&gt;Loaded Fries&lt;/strong&gt; flagged for review. Negative delivery margin detected. Agent paused autonomous pricing for this item.&quot;, time:&quot;3h ago&quot;},
+  {icon:&quot;↑&quot;, cls:&quot;fi-lime&quot;, text:&quot;&lt;strong&gt;Classic Tender Combo&lt;/strong&gt; $18.99 → $19.99 locked in. Experiment complete. Saving $3,100/mo across chain.&quot;, time:&quot;Yesterday&quot;},
+];
+
+// MODE
+function setMode(m, el) {
+  document.querySelectorAll(&#x27;.mode-btn&#x27;).forEach(b =&gt; b.classList.remove(&#x27;active&#x27;));
+  el.classList.add(&#x27;active&#x27;);
+  const statusText = document.querySelector(&#x27;.agent-status span&#x27;);
+  statusText.textContent = m === &#x27;auto&#x27; ? &#x27;Agent active · Dave\&#x27;s Hot Chicken&#x27; : &#x27;Suggest mode · Dave\&#x27;s Hot Chicken&#x27;;
+}
+
+// RENDER EXPERIMENTS
+function renderExperiments() {
+  const el = document.getElementById(&#x27;exp-list&#x27;);
+  el.innerHTML = &#x27;&#x27;;
+  experiments.forEach(e =&gt; {
+    const div = document.createElement(&#x27;div&#x27;);
+    div.className = &#x27;exp-item&#x27;;
+    const badgeCls = e.status === &#x27;live&#x27; ? &#x27;badge-live&#x27; : e.status === &#x27;done&#x27; ? &#x27;badge-done&#x27; : &#x27;badge-queue&#x27;;
+    const badgeLabel = e.status === &#x27;live&#x27; ? &#x27;● LIVE&#x27; : e.status === &#x27;done&#x27; ? &#x27;✓ DONE&#x27; : &#x27;○ QUEUED&#x27;;
+    div.innerHTML = `
+      &lt;div class=&quot;exp-header&quot;&gt;
+        &lt;span class=&quot;exp-name&quot;&gt;${e.name}&lt;/span&gt;
+        &lt;span class=&quot;exp-badge ${badgeCls}&quot;&gt;${badgeLabel}&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;exp-detail&quot;&gt;${e.item}&lt;/div&gt;
+      &lt;div class=&quot;exp-progress&quot;&gt;&lt;div class=&quot;exp-fill&quot; style=&quot;width:${e.progress}%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+    `;
+    el.appendChild(div);
+  });
+}
+
+// RENDER FEED
+function renderFeed() {
+  const el = document.getElementById(&#x27;feed&#x27;);
+  feedItems.forEach(f =&gt; {
+    const div = document.createElement(&#x27;div&#x27;);
+    div.className = &#x27;feed-item&#x27;;
+    div.innerHTML = `&lt;div class=&quot;feed-icon ${f.cls}&quot;&gt;${f.icon}&lt;/div&gt;&lt;div class=&quot;feed-text&quot;&gt;&lt;div class=&quot;feed-main&quot;&gt;${f.text}&lt;/div&gt;&lt;div class=&quot;feed-time&quot;&gt;${f.time}&lt;/div&gt;&lt;/div&gt;`;
+    el.appendChild(div);
+  });
+}
+
+// DAYPART MINI
+function daypartMini(enabled) {
+  if (!enabled) return `&lt;span style=&quot;color:var(--muted);font-size:11px;font-family:var(--mono)&quot;&gt;flat&lt;/span&gt;`;
+  const heatmap = [
+    {label:&quot;M-T&quot;, heat:0.3}, {label:&quot;W-T&quot;, heat:0.5}, {label:&quot;F-S&quot;, heat:1.0}, {label:&quot;Su&quot;, heat:0.7}
+  ];
+  return `&lt;div class=&quot;daypart-mini&quot;&gt;${heatmap.map(h =&gt; {
+    const g = Math.round(h.heat * 100);
+    const bg = h.heat &gt; 0.7 ? `rgba(184,245,90,${h.heat*0.7})` : h.heat &gt; 0.4 ? `rgba(245,166,35,0.4)` : `var(--s3)`;
+    const c = h.heat &gt; 0.5 ? &#x27;#080808&#x27; : &#x27;var(--muted)&#x27;;
+    return `&lt;div class=&quot;dp-pip&quot; style=&quot;background:${bg};color:${c}&quot;&gt;${h.label}&lt;/div&gt;`;
+  }).join(&#x27;&#x27;)}&lt;/div&gt;`;
+}
+
+// RENDER ITEMS
+let expandedItem = null;
+function renderItems() {
+  const tbody = document.getElementById(&#x27;items-tbody&#x27;);
+  tbody.innerHTML = &#x27;&#x27;;
+  items.forEach((item, i) =&gt; {
+    const actionMap = {
+      auto: [&#x27;aa-auto&#x27;, &#x27;⚡ Auto&#x27;],
+      test: [&#x27;aa-test&#x27;, &#x27;⚗ Testing&#x27;],
+      hold: [&#x27;aa-hold&#x27;, &#x27;— Hold&#x27;],
+      warn: [&#x27;aa-warn&#x27;, &#x27;⚠ Review&#x27;],
+    };
+    const [aCls, aLabel] = actionMap[item.action];
+    const margColor = item.marginImpact &gt; 0 ? &#x27;var(--lime)&#x27; : &#x27;var(--red)&#x27;;
+    const margSign = item.marginImpact &gt; 0 ? &#x27;+&#x27; : &#x27;&#x27;;
+
+    const platRows = Object.entries(item.platforms).map(([p, price]) =&gt; {
+      const base = item.basePrices[p];
+      const diff = price - base;
+      const diffStr = diff === 0 ? &#x27;&#x27; : diff &gt; 0 ? `&lt;span class=&quot;plat-change&quot; style=&quot;color:var(--lime)&quot;&gt;+$${diff.toFixed(2)}&lt;/span&gt;` : `&lt;span class=&quot;plat-change&quot; style=&quot;color:var(--red)&quot;&gt;−$${Math.abs(diff).toFixed(2)}&lt;/span&gt;`;
+      const labels = {dd:&#x27;DD&#x27;, ue:&#x27;UE&#x27;, gh:&#x27;GH&#x27;};
+      const colors = {dd:&#x27;#FF3008&#x27;, ue:&#x27;#06C167&#x27;, gh:&#x27;#F63440&#x27;};
+      return `&lt;div class=&quot;plat-row&quot;&gt;&lt;div class=&quot;plat-dot&quot; style=&quot;background:${colors[p]}&quot;&gt;&lt;/div&gt;&lt;span class=&quot;plat-price&quot;&gt;$${price.toFixed(2)}&lt;/span&gt;${diffStr}&lt;/div&gt;`;
+    }).join(&#x27;&#x27;);
+
+    const tr = document.createElement(&#x27;tr&#x27;);
+    tr.className = expandedItem === i ? &#x27;item-expanded&#x27; : &#x27;&#x27;;
+    tr.innerHTML = `
+      &lt;td&gt;
+        &lt;div class=&quot;item-title&quot;&gt;${item.name}&lt;/div&gt;
+        &lt;div class=&quot;item-sub&quot;&gt;${item.cat}&lt;/div&gt;
+      &lt;/td&gt;
+      &lt;td&gt;&lt;div class=&quot;platform-stack&quot;&gt;${platRows}&lt;/div&gt;&lt;/td&gt;
+      &lt;td&gt;${daypartMini(item.daypartEnabled)}&lt;/td&gt;
+      &lt;td style=&quot;color:var(--muted)&quot;&gt;${item.elasticity}&lt;/td&gt;
+      &lt;td style=&quot;color:${margColor};font-weight:600&quot;&gt;${margSign}$${Math.abs(item.marginImpact).toLocaleString()}&lt;/td&gt;
+      &lt;td&gt;&lt;span class=&quot;agent-action ${aCls}&quot;&gt;${aLabel}&lt;/span&gt;&lt;/td&gt;
+    `;
+    tr.style.cursor = &#x27;pointer&#x27;;
+    tr.addEventListener(&#x27;click&#x27;, () =&gt; { expandedItem = expandedItem === i ? null : i; renderItems(); });
+    tbody.appendChild(tr);
+
+    if (expandedItem === i) {
+      const exp = item.experiment;
+      const variantBars = exp.variants.map(v =&gt; {
+        const isWinner = exp.winner === v.label;
+        const barW = v.orders ? Math.round((v.orders / 1000) * 100) : 0;
+        const barColor = isWinner ? &#x27;var(--lime)&#x27; : &#x27;var(--blue)&#x27;;
+        const marginStr = v.margin ? `&lt;span style=&quot;font-size:11px;color:${v.margin.startsWith(&#x27;+&#x27;) ? &#x27;var(--lime)&#x27; : &#x27;var(--muted)&#x27;}&quot;&gt;${v.margin} margin&lt;/span&gt;` : &#x27;&lt;span style=&quot;color:var(--muted);font-size:11px&quot;&gt;not started&lt;/span&gt;&#x27;;
+        return `
+          &lt;div class=&quot;ab-bar-row&quot;&gt;
+            &lt;span class=&quot;ab-label&quot;&gt;${v.label}${isWinner ? &#x27; ★&#x27; : &#x27;&#x27;}&lt;/span&gt;
+            &lt;div class=&quot;ab-bar-bg&quot;&gt;&lt;div class=&quot;ab-fill&quot; style=&quot;width:${barW}%;background:${barColor}&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;span class=&quot;ab-val&quot; style=&quot;color:${isWinner ? &#x27;var(--lime)&#x27; : &#x27;var(--muted)&#x27;}&quot;&gt;${v.orders ? v.orders+&#x27; ord&#x27; : &#x27;—&#x27;}&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div style=&quot;margin-left:36px;margin-bottom:6px;font-size:11px;font-family:var(--mono);color:var(--muted)&quot;&gt;${v.price} · ${marginStr}&lt;/div&gt;
+        `;
+      }).join(&#x27;&#x27;);
+
+      const badgeCls = exp.status === &#x27;live&#x27; ? &#x27;badge-live&#x27; : exp.status === &#x27;done&#x27; ? &#x27;badge-done&#x27; : &#x27;badge-queue&#x27;;
+      const badgeLabel = exp.status === &#x27;live&#x27; ? &#x27;● LIVE&#x27; : exp.status === &#x27;done&#x27; ? &#x27;✓ DONE&#x27; : &#x27;○ QUEUED&#x27;;
+
+      const detRow = document.createElement(&#x27;tr&#x27;);
+      detRow.className = &#x27;detail-row&#x27;;
+      detRow.innerHTML = `&lt;td colspan=&quot;6&quot;&gt;
+        &lt;div class=&quot;detail-inner&quot;&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;det-head&quot;&gt;A/B Experiment — &lt;span class=&quot;exp-badge ${badgeCls}&quot; style=&quot;margin-left:4px&quot;&gt;${badgeLabel}&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;det-metric&quot;&gt;
+              &lt;div class=&quot;det-metric-label&quot;&gt;Experiment&lt;/div&gt;
+              &lt;div class=&quot;det-metric-val&quot; style=&quot;font-size:13px&quot;&gt;${exp.name}&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;ab-viz&quot;&gt;${variantBars}&lt;/div&gt;
+            ${exp.progress &gt; 0 ? `&lt;div style=&quot;margin-top:8px;height:3px;background:var(--s3);border-radius:2px;overflow:hidden&quot;&gt;&lt;div style=&quot;height:100%;width:${exp.progress}%;background:var(--lime);border-radius:2px&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:4px&quot;&gt;${exp.progress}% complete&lt;/div&gt;` : &#x27;&#x27;}
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;det-head&quot;&gt;Price context&lt;/div&gt;
+            &lt;div class=&quot;det-metric&quot;&gt;&lt;div class=&quot;det-metric-label&quot;&gt;Base price (all platforms)&lt;/div&gt;&lt;div class=&quot;det-metric-val&quot;&gt;$${Object.values(item.basePrices)[0].toFixed(2)}&lt;/div&gt;&lt;/div&gt;
+            &lt;div class=&quot;det-metric&quot;&gt;&lt;div class=&quot;det-metric-label&quot;&gt;Price elasticity&lt;/div&gt;&lt;div class=&quot;det-metric-val&quot;&gt;${item.elasticity} (${Math.abs(item.elasticity) &lt; 1 ? &#x27;inelastic&#x27; : &#x27;elastic&#x27;})&lt;/div&gt;&lt;/div&gt;
+            &lt;div class=&quot;det-metric&quot;&gt;&lt;div class=&quot;det-metric-label&quot;&gt;30d margin impact&lt;/div&gt;&lt;div class=&quot;det-metric-val&quot; style=&quot;color:${item.marginImpact &gt; 0 ? &#x27;var(--lime)&#x27; : &#x27;var(--red)&#x27;}&quot;&gt;${item.marginImpact &gt; 0 ? &#x27;+&#x27; : &#x27;&#x27;}$${item.marginImpact.toLocaleString()}&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;insight-panel&quot;&gt;
+              &lt;div class=&quot;ins-tag&quot;&gt;Agent reasoning&lt;/div&gt;
+              &lt;div class=&quot;ins-text&quot;&gt;${exp.insight}&lt;/div&gt;
+              ${exp.winner ? `&lt;div class=&quot;ins-outcome&quot;&gt;&lt;span class=&quot;ins-outcome-label&quot;&gt;Applied&lt;/span&gt;&lt;span class=&quot;ins-outcome-val&quot;&gt;Variant ${exp.winner} locked in&lt;/span&gt;&lt;/div&gt;` : exp.status === &#x27;queue&#x27; ? `&lt;div class=&quot;ins-outcome&quot;&gt;&lt;span class=&quot;ins-outcome-label&quot;&gt;&lt;button onclick=&quot;event.stopPropagation()&quot; style=&quot;padding:4px 10px;background:var(--lime);border:none;border-radius:5px;color:#080808;font-size:11px;cursor:pointer;font-family:var(--font);font-weight:600&quot;&gt;Approve experiment ↗&lt;/button&gt;&lt;/span&gt;&lt;/div&gt;` : `&lt;div class=&quot;ins-outcome&quot;&gt;&lt;span class=&quot;ins-outcome-label&quot;&gt;In progress&lt;/span&gt;&lt;span style=&quot;font-size:11px;color:var(--muted);font-family:var(--mono)&quot;&gt;${exp.progress}% data collected&lt;/span&gt;&lt;/div&gt;`}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/td&gt;`;
+      tbody.appendChild(detRow);
+    }
+  });
+}
+
+function approveAll() {
+  document.getElementById(&#x27;pending-count&#x27;).textContent = &#x27;0&#x27;;
+  document.querySelector(&#x27;.tact.primary&#x27;).textContent = &#x27;All approved ✓&#x27;;
+  document.querySelector(&#x27;.tact.primary&#x27;).style.background = &#x27;transparent&#x27;;
+  document.querySelector(&#x27;.tact.primary&#x27;).style.color = &#x27;var(--lime)&#x27;;
+  document.querySelector(&#x27;.tact.primary&#x27;).style.borderColor = &#x27;var(--lime-border)&#x27;;
+}
+
+renderExperiments();
+renderFeed();
+renderItems();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" title="Pricing Agent Demo" loading="lazy"></iframe>
+  </div>
+</div>
+
+<!-- INVENTORY DEMO -->
+<div class="demo-section" id="inventory">
+  <div class="demo-inner">
+    <div class="demo-tag" style="color:var(--teal)">02 — Inventory Agent</div>
+    <h2 class="demo-title">Loop orders your inventory.<br><em>Zero waste. Zero stockouts.</em></h2>
+    <ul class="bullets">
+      <li><strong>Outcome sold, not software</strong> — "we eliminate your food waste and prevent stockouts" not "here's a better ordering tool"</li>
+      <li><strong>3PD demand as the forecast signal</strong> — Loop knows what you'll sell before the store manager does. Weather, promos, local events all factored in</li>
+      <li><strong>Perpetual inventory model</strong> — tracks inflows (deliveries), outflows (sales, waste, comps), and variance between theoretical and actual. Flags anomalies like recipe drift or theft</li>
+      <li><strong>Submits orders directly</strong> — agent builds the PO, manager reviews in 4 minutes, one tap sends to Sysco/US Foods via API</li>
+      <li><strong>Self-improving</strong> — every physical count recalibrates the model; gets more accurate over time per store</li>
+    </ul>
+  </div>
+  <div class="demo-frame-wrap">
+    <iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Loop — Inventory Agent&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080c;--s1:#0d0e14;--s2:#13141c;--s3:#1a1b25;
+  --border:rgba(255,255,255,0.055);--border2:rgba(255,255,255,0.095);
+  --text:#e2e4f0;--muted:#5d617a;--subtle:#2a2c3a;
+  --teal:#3ddbbe;--teal-dim:rgba(61,219,190,0.08);--teal-border:rgba(61,219,190,0.18);
+  --amber:#f0a500;--amber-dim:rgba(240,165,0,0.08);
+  --red:#f06060;--red-dim:rgba(240,96,96,0.08);--red-border:rgba(240,96,96,0.18);
+  --mute-green:rgba(61,219,190,0.25);
+  --font:&#x27;Manrope&#x27;,sans-serif;--serif:&#x27;Instrument Serif&#x27;,serif;--mono:&#x27;DM Mono&#x27;,monospace;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;line-height:1.5;min-height:100vh}
+
+/* TOP */
+header{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:20}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-badge{width:25px;height:25px;background:var(--teal);border-radius:6px;display:grid;place-items:center;font-size:13px;line-height:1}
+.logo-name{font-size:14px;font-weight:700;letter-spacing:-0.2px}
+.logo-sep{width:1px;height:16px;background:var(--border2);margin:0 10px}
+.logo-module{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.agent-pill{display:flex;align-items:center;gap:7px;padding:5px 12px;background:var(--s2);border:1px solid var(--teal-border);border-radius:20px;font-family:var(--mono);font-size:11px;color:var(--teal)}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:p 2s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
+.send-all{padding:6px 16px;background:var(--teal);border:none;border-radius:7px;color:#07080c;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);letter-spacing:-0.2px}
+.send-all:hover{opacity:0.88}
+
+/* SHELL */
+.shell{display:grid;grid-template-columns:1fr 380px;height:calc(100vh - 54px)}
+
+/* MAIN LEFT */
+.main{overflow-y:auto;padding:22px 24px}
+
+/* OUTCOME BANNER */
+.outcome-banner{background:var(--s1);border:1px solid var(--teal-border);border-radius:14px;padding:20px 22px;margin-bottom:22px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;position:relative;overflow:hidden}
+.outcome-banner::before{content:&#x27;&#x27;;position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent)}
+.ob-metric{}
+.ob-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:7px}
+.ob-val{font-size:24px;font-weight:700;letter-spacing:-0.6px}
+.ob-sub{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}
+.ob-divider{width:1px;background:var(--border);margin:0 20px}
+
+/* SECTION HEAD */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-title{font-size:13px;font-weight:600}
+.sec-sub{font-size:11px;color:var(--muted)}
+.sec-actions{display:flex;gap:7px}
+.sact{padding:4px 10px;border:1px solid var(--border2);border-radius:5px;background:transparent;color:var(--muted);font-size:11px;cursor:pointer;font-family:var(--font)}
+.sact:hover{color:var(--text)}
+.sact.teal{border-color:var(--teal-border);color:var(--teal)}
+.sact.teal:hover{background:var(--teal-dim)}
+
+/* INGREDIENT CARDS */
+.ing-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.ing-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.ing-card.urgent{border-color:rgba(240,96,96,0.25)}
+.ing-card.low{border-color:rgba(240,165,0,0.2)}
+.ing-header{display:grid;grid-template-columns:1fr 90px 90px 90px 90px 110px 100px;align-items:center;padding:11px 16px;cursor:pointer;gap:8px}
+.ing-header:hover{background:rgba(255,255,255,0.012)}
+.ing-name{font-weight:600;font-size:13px}
+.ing-cat{font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:1px}
+.ing-cell{text-align:right;font-family:var(--mono);font-size:12px}
+.ing-cell-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;text-align:right}
+
+/* STOCK METER */
+.stock-meter{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.meter-track{width:60px;height:5px;background:var(--s3);border-radius:3px;overflow:hidden}
+.meter-fill{height:100%;border-radius:3px;transition:width 0.8s}
+.meter-label{font-size:10px;font-family:var(--mono)}
+
+/* ORDER QTY */
+.order-input-wrap{display:flex;align-items:center;justify-content:flex-end;gap:4px}
+.order-input{width:55px;background:var(--s3);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-size:12px;font-family:var(--mono);text-align:center;padding:4px;-moz-appearance:textfield}
+.order-input::-webkit-inner-spin-button{display:none}
+.order-input:focus{outline:none;border-color:var(--teal)}
+.order-unit{font-size:10px;color:var(--muted)}
+
+/* URGENCY BADGE */
+.urg{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;font-family:var(--mono)}
+.urg-critical{background:var(--red-dim);color:var(--red)}
+.urg-low{background:var(--amber-dim);color:var(--amber)}
+.urg-ok{background:var(--teal-dim);color:var(--teal)}
+.urg-good{background:var(--s3);color:var(--muted)}
+
+/* EXPANDED DETAIL */
+.ing-detail{border-top:1px solid var(--border);padding:16px 18px 18px 20px;background:rgba(61,219,190,0.02)}
+.ing-detail-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.idet-section{}
+.idet-title{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px}
+.idet-row{margin-bottom:8px}
+.idet-label{font-size:11px;color:var(--muted);margin-bottom:1px}
+.idet-val{font-size:13px;font-weight:500}
+.flow-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:12px}
+.flow-icon{width:20px;height:20px;border-radius:4px;display:grid;place-items:center;font-size:10px;flex-shrink:0}
+.flow-in{background:var(--teal-dim);color:var(--teal)}
+.flow-out{background:var(--red-dim);color:var(--red)}
+.flow-waste{background:var(--amber-dim);color:var(--amber)}
+.variance-box{background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:10px 12px}
+.var-label{font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:5px}
+.var-val{font-size:15px;font-weight:600}
+.var-explain{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+
+/* TABLE HEADER */
+.col-heads{display:grid;grid-template-columns:1fr 90px 90px 90px 90px 110px 100px;padding:7px 16px;gap:8px;border-bottom:1px solid var(--border)}
+.col-head{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);text-align:right}
+.col-head:first-child{text-align:left}
+
+/* RIGHT PANEL */
+.right{border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column}
+.right-section{padding:16px 18px;border-bottom:1px solid var(--border)}
+.rs-title{font-size:12px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.rs-title-dot{width:6px;height:6px;border-radius:50%;background:var(--teal)}
+
+/* SIGNALS */
+.signal-item{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:7px}
+.signal-item:last-child{margin-bottom:0}
+.sig-row{display:flex;align-items:flex-start;gap:8px}
+.sig-ico{width:26px;height:26px;border-radius:5px;display:grid;place-items:center;flex-shrink:0;font-size:13px}
+.sig-body{}
+.sig-title{font-size:12px;font-weight:600;margin-bottom:2px}
+.sig-text{font-size:11px;color:var(--muted);line-height:1.4}
+.sig-impact{font-size:11px;margin-top:5px;font-family:var(--mono)}
+
+/* PO SUMMARY */
+.po-section{padding:16px 18px;flex:1}
+.po-card{background:var(--s2);border:1px solid var(--border2);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.po-card-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.po-vendor{font-size:13px;font-weight:600}
+.po-vendor-items{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.po-total{font-size:15px;font-weight:700}
+.po-items{padding:8px 14px}
+.po-item-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid var(--border);font-family:var(--mono)}
+.po-item-row:last-child{border-bottom:none}
+.po-item-name{color:var(--muted)}
+.po-item-qty{font-weight:500}
+.po-actions{padding:10px 14px;background:var(--s1);border-top:1px solid var(--border)}
+.po-btn{width:100%;padding:8px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+.po-btn-primary{background:var(--teal);color:#07080c}
+.po-btn-primary:hover{opacity:0.88}
+.po-btn-primary.sent{background:var(--s3);color:var(--teal);cursor:default}
+
+.waste-summary{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.waste-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
+.waste-row:last-child{border-bottom:none}
+.waste-label{font-size:12px;color:var(--muted)}
+.waste-val{font-size:13px;font-weight:600}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;div class=&quot;logo&quot;&gt;
+    &lt;div class=&quot;logo-badge&quot;&gt;◈&lt;/div&gt;
+    &lt;span class=&quot;logo-name&quot;&gt;Loop&lt;/span&gt;
+    &lt;div class=&quot;logo-sep&quot;&gt;&lt;/div&gt;
+    &lt;span class=&quot;logo-module&quot;&gt;inventory-agent&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;hdr-right&quot;&gt;
+    &lt;div class=&quot;agent-pill&quot;&gt;&lt;div class=&quot;pulse&quot;&gt;&lt;/div&gt;Managing 47 stores · Dave&#x27;s Hot Chicken&lt;/div&gt;
+    &lt;button class=&quot;send-all&quot; onclick=&quot;sendAll()&quot;&gt;Approve &amp; Send All Orders ↗&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;div class=&quot;shell&quot;&gt;
+
+  &lt;!-- MAIN --&gt;
+  &lt;div class=&quot;main&quot;&gt;
+
+    &lt;div class=&quot;outcome-banner&quot;&gt;
+      &lt;div class=&quot;ob-metric&quot;&gt;
+        &lt;div class=&quot;ob-label&quot;&gt;Waste eliminated / mo&lt;/div&gt;
+        &lt;div class=&quot;ob-val&quot; style=&quot;color:var(--teal)&quot;&gt;$8,240&lt;/div&gt;
+        &lt;div class=&quot;ob-sub&quot;&gt;vs. manual ordering baseline&lt;br&gt;↓ 31% spoilage reduction&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;ob-divider&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;ob-metric&quot; style=&quot;padding-left:20px&quot;&gt;
+        &lt;div class=&quot;ob-label&quot;&gt;Stockout incidents / mo&lt;/div&gt;
+        &lt;div class=&quot;ob-val&quot; style=&quot;color:var(--teal)&quot;&gt;2&lt;/div&gt;
+        &lt;div class=&quot;ob-sub&quot;&gt;Down from 18/mo before agent&lt;br&gt;↓ 89% reduction&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;ob-divider&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;ob-metric&quot; style=&quot;padding-left:20px&quot;&gt;
+        &lt;div class=&quot;ob-label&quot;&gt;Ordering accuracy&lt;/div&gt;
+        &lt;div class=&quot;ob-val&quot;&gt;94.8%&lt;/div&gt;
+        &lt;div class=&quot;ob-sub&quot;&gt;Forecast vs actual usage&lt;br&gt;vs. 71% manual estimate&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;ob-divider&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;ob-metric&quot; style=&quot;padding-left:20px&quot;&gt;
+        &lt;div class=&quot;ob-label&quot;&gt;Manager ordering time&lt;/div&gt;
+        &lt;div class=&quot;ob-val&quot; style=&quot;color:var(--teal)&quot;&gt;4 min&lt;/div&gt;
+        &lt;div class=&quot;ob-sub&quot;&gt;Review &amp; approve only&lt;br&gt;Was: 45 min manual&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;sec-head&quot;&gt;
+      &lt;div&gt;
+        &lt;div class=&quot;sec-title&quot;&gt;Inventory &amp; Order Plan — Store #7, West Hollywood&lt;/div&gt;
+        &lt;div class=&quot;sec-sub&quot;&gt;Next Sysco delivery: Wed Apr 16, 6am · Order deadline: tonight 9pm · Perpetual inventory updated 2h ago&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sec-actions&quot;&gt;
+        &lt;button class=&quot;sact&quot; onclick=&quot;refreshInventory()&quot;&gt;↻ Sync inventory&lt;/button&gt;
+        &lt;button class=&quot;sact teal&quot;&gt;Adjust all +10%&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;col-heads&quot;&gt;
+      &lt;div class=&quot;col-head&quot;&gt;Ingredient&lt;/div&gt;
+      &lt;div class=&quot;col-head&quot;&gt;On hand&lt;/div&gt;
+      &lt;div class=&quot;col-head&quot;&gt;Predicted use&lt;/div&gt;
+      &lt;div class=&quot;col-head&quot;&gt;Safety buffer&lt;/div&gt;
+      &lt;div class=&quot;col-head&quot;&gt;Variance&lt;/div&gt;
+      &lt;div class=&quot;col-head&quot;&gt;Stock status&lt;/div&gt;
+      &lt;div class=&quot;col-head&quot;&gt;Order qty&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;ing-grid&quot; id=&quot;ing-grid&quot;&gt;&lt;/div&gt;
+
+  &lt;/div&gt;
+
+  &lt;!-- RIGHT --&gt;
+  &lt;div class=&quot;right&quot;&gt;
+
+    &lt;div class=&quot;right-section&quot;&gt;
+      &lt;div class=&quot;rs-title&quot;&gt;&lt;div class=&quot;rs-title-dot&quot;&gt;&lt;/div&gt;Demand signals active&lt;/div&gt;
+      &lt;div id=&quot;signals-list&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;right-section&quot;&gt;
+      &lt;div class=&quot;rs-title&quot;&gt;&lt;div class=&quot;rs-title-dot&quot; style=&quot;background:var(--amber)&quot;&gt;&lt;/div&gt;Waste intelligence&lt;/div&gt;
+      &lt;div class=&quot;waste-summary&quot; id=&quot;waste-summary&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;po-section&quot;&gt;
+      &lt;div class=&quot;rs-title&quot; style=&quot;margin-bottom:14px&quot;&gt;&lt;div class=&quot;rs-title-dot&quot;&gt;&lt;/div&gt;Purchase orders — ready to send&lt;/div&gt;
+      &lt;div id=&quot;po-list&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+const ingredients = [
+  {
+    name:&quot;Chicken Breast&quot;, cat:&quot;Protein&quot;,
+    onHand:120, unit:&quot;lbs&quot;,
+    predictedUse:840, safetyBuffer:80,
+    caseSize:40, vendor:&quot;Sysco&quot;, casePrice:86,
+    urgency:&quot;critical&quot;,
+    inflows:[
+      {label:&quot;Last order received&quot;, val:&quot;200 lbs&quot;, type:&quot;in&quot;},
+    ],
+    outflows:[
+      {label:&quot;Theoretical usage (3d)&quot;, val:&quot;840 lbs&quot;, type:&quot;out&quot;},
+      {label:&quot;Waste logged (avg)&quot;, val:&quot;18 lbs&quot;, type:&quot;waste&quot;},
+      {label:&quot;Comps / voids&quot;, val:&quot;4 lbs&quot;, type:&quot;waste&quot;},
+    ],
+    variance:{val:&quot;+3.2%&quot;, explain:&quot;Theoretical vs actual usage within normal bounds. Model accuracy: 96.8% on this ingredient over 60 days.&quot;},
+    driver:&quot;Trend ↑14% + DoorDash promo&quot;,
+    lastCount:&quot;Today 8am (manager check-in)&quot;,
+    countMethod:&quot;Manager daily check-in&quot;,
+  },
+  {
+    name:&quot;Brioche Buns&quot;, cat:&quot;Bread&quot;,
+    onHand:200, unit:&quot;units&quot;,
+    predictedUse:1240, safetyBuffer:120,
+    caseSize:100, vendor:&quot;Sysco&quot;, casePrice:22,
+    urgency:&quot;critical&quot;,
+    inflows:[{label:&quot;Last order received&quot;, val:&quot;400 units&quot;, type:&quot;in&quot;}],
+    outflows:[
+      {label:&quot;Theoretical usage (3d)&quot;, val:&quot;1240 units&quot;, type:&quot;out&quot;},
+      {label:&quot;Waste / stale&quot;, val:&quot;35 units&quot;, type:&quot;waste&quot;},
+    ],
+    variance:{val:&quot;+1.8%&quot;, explain:&quot;Slightly over-ordered last cycle — 35 stale buns composted. Model has adjusted down 3% for this item.&quot;},
+    driver:&quot;DoorDash promo active&quot;,
+    lastCount:&quot;Today 8am&quot;,
+    countMethod:&quot;Manager daily check-in&quot;,
+  },
+  {
+    name:&quot;Avocado&quot;, cat:&quot;Produce&quot;,
+    onHand:80, unit:&quot;units&quot;,
+    predictedUse:310, safetyBuffer:40,
+    caseSize:48, vendor:&quot;US Foods&quot;, casePrice:72,
+    urgency:&quot;low&quot;,
+    inflows:[{label:&quot;Last order received&quot;, val:&quot;144 units&quot;, type:&quot;in&quot;}],
+    outflows:[
+      {label:&quot;Theoretical usage (3d)&quot;, val:&quot;310 units&quot;, type:&quot;out&quot;},
+      {label:&quot;Spoilage (avg)&quot;, val:&quot;22 units&quot;, type:&quot;waste&quot;},
+    ],
+    variance:{val:&quot;+8.4%&quot;, explain:&quot;Avocado spoilage is above average — 22 units/cycle vs. network median of 14. Possible over-ripeness on delivery. Consider shifting from 3-day to 2-day delivery for produce.&quot;},
+    driver:&quot;Rain forecast +18%&quot;,
+    lastCount:&quot;Yesterday 6pm&quot;,
+    countMethod:&quot;Manager daily check-in&quot;,
+  },
+  {
+    name:&quot;Nashville Hot Sauce&quot;, cat:&quot;Sauces&quot;,
+    onHand:4, unit:&quot;bottles&quot;,
+    predictedUse:18, safetyBuffer:3,
+    caseSize:6, vendor:&quot;Sysco&quot;, casePrice:28,
+    urgency:&quot;critical&quot;,
+    inflows:[{label:&quot;Last order received&quot;, val:&quot;12 bottles&quot;, type:&quot;in&quot;}],
+    outflows:[
+      {label:&quot;Theoretical usage (3d)&quot;, val:&quot;18 bottles&quot;, type:&quot;out&quot;},
+    ],
+    variance:{val:&quot;−12%&quot;, explain:&quot;⚠ Theoretical says 18 bottles should remain — actual is only 4. Possible miscounting or undisclosed portion variance. Check recipe adherence at this location.&quot;},
+    driver:&quot;Tender trend ↑14%&quot;,
+    lastCount:&quot;Today 8am&quot;,
+    countMethod:&quot;Manager daily check-in&quot;,
+  },
+  {
+    name:&quot;Fry Oil&quot;, cat:&quot;Cooking&quot;,
+    onHand:6, unit:&quot;gal&quot;,
+    predictedUse:14, safetyBuffer:3,
+    caseSize:5, vendor:&quot;Sysco&quot;, casePrice:45,
+    urgency:&quot;low&quot;,
+    inflows:[{label:&quot;Last order received&quot;, val:&quot;10 gal&quot;, type:&quot;in&quot;}],
+    outflows:[
+      {label:&quot;Theoretical usage (3d)&quot;, val:&quot;14 gal&quot;, type:&quot;out&quot;},
+    ],
+    variance:{val:&quot;+2.1%&quot;, explain:&quot;Within normal range. Model accurate on this ingredient.&quot;},
+    driver:&quot;Baseline&quot;,
+    lastCount:&quot;Today 8am&quot;,
+    countMethod:&quot;Manager daily check-in&quot;,
+  },
+  {
+    name:&quot;Lemonade Syrup&quot;, cat:&quot;Drinks&quot;,
+    onHand:2, unit:&quot;units&quot;,
+    predictedUse:8, safetyBuffer:2,
+    caseSize:4, vendor:&quot;Sysco&quot;, casePrice:18,
+    urgency:&quot;critical&quot;,
+    inflows:[{label:&quot;Last order received&quot;, val:&quot;6 units&quot;, type:&quot;in&quot;}],
+    outflows:[
+      {label:&quot;Theoretical usage (3d)&quot;, val:&quot;8 units&quot;, type:&quot;out&quot;},
+    ],
+    variance:{val:&quot;+0.5%&quot;, explain:&quot;Very close to theoretical. Highly consistent item.&quot;},
+    driver:&quot;DoorDash promo&quot;,
+    lastCount:&quot;Today 8am&quot;,
+    countMethod:&quot;Manager daily check-in&quot;,
+  },
+  {
+    name:&quot;Pickle Chips&quot;, cat:&quot;Condiments&quot;,
+    onHand:8, unit:&quot;jars&quot;,
+    predictedUse:22, safetyBuffer:4,
+    caseSize:6, vendor:&quot;Sysco&quot;, casePrice:16,
+    urgency:&quot;low&quot;,
+    inflows:[{label:&quot;Last order received&quot;, val:&quot;12 jars&quot;, type:&quot;in&quot;}],
+    outflows:[
+      {label:&quot;Theoretical usage (3d)&quot;, val:&quot;22 jars&quot;, type:&quot;out&quot;},
+    ],
+    variance:{val:&quot;+1.2%&quot;, explain:&quot;Normal variance. Model stable.&quot;},
+    driver:&quot;Baseline&quot;,
+    lastCount:&quot;Today 8am&quot;,
+    countMethod:&quot;Manager daily check-in&quot;,
+  },
+  {
+    name:&quot;Shredded Cabbage&quot;, cat:&quot;Produce&quot;,
+    onHand:18, unit:&quot;lbs&quot;,
+    predictedUse:55, safetyBuffer:8,
+    caseSize:10, vendor:&quot;US Foods&quot;, casePrice:24,
+    urgency:&quot;low&quot;,
+    inflows:[{label:&quot;Last order received&quot;, val:&quot;30 lbs&quot;, type:&quot;in&quot;}],
+    outflows:[
+      {label:&quot;Theoretical usage (3d)&quot;, val:&quot;55 lbs&quot;, type:&quot;out&quot;},
+      {label:&quot;Spoilage (avg)&quot;, val:&quot;3 lbs&quot;, type:&quot;waste&quot;},
+    ],
+    variance:{val:&quot;+4.1%&quot;, explain:&quot;Minor positive variance — slight over-ordering last cycle. Agent has adjusted down 4% this cycle.&quot;},
+    driver:&quot;Rain forecast +18%&quot;,
+    lastCount:&quot;Yesterday 6pm&quot;,
+    countMethod:&quot;Manager daily check-in&quot;,
+  },
+];
+
+const signals = [
+  {icon:&quot;🌧&quot;, bg:&quot;rgba(91,156,246,0.1)&quot;, color:&quot;#5b9cf6&quot;, title:&quot;Rain Wed–Thu (LA/OC)&quot;, text:&quot;Delivery volume typically +18–22% during rain. Agent has adjusted protein and produce orders up.&quot;, impact:&quot;+340 orders projected · +18% adjustment applied&quot;},
+  {icon:&quot;📣&quot;, bg:&quot;rgba(61,219,190,0.1)&quot;, color:&quot;var(--teal)&quot;, title:&quot;DoorDash 20% off promo&quot;, text:&quot;Running Wed–Sun. Network avg lift: 28% on promoted items. Bun and beverage orders adjusted.&quot;, impact:&quot;+28% DoorDash vol · promo ends Sun&quot;},
+  {icon:&quot;📈&quot;, bg:&quot;rgba(240,165,0,0.1)&quot;, color:&quot;var(--amber)&quot;, title:&quot;Spicy Sandwich trending&quot;, text:&quot;Sandwich up 14% vs 4-week avg. Chicken and bun orders lifted 12%.&quot;, impact:&quot;Chicken order ↑12% vs baseline&quot;},
+  {icon:&quot;🏀&quot;, bg:&quot;rgba(167,139,250,0.1)&quot;, color:&quot;#a78bfa&quot;, title:&quot;Lakers game Thu 7:30pm&quot;, text:&quot;Store #7 is 1.2mi from Crypto.com Arena. +15% delivery spike expected Thu eve.&quot;, impact:&quot;+68 orders projected Thu 6–10pm&quot;},
+];
+
+const waste = [
+  {label:&quot;Projected waste this cycle&quot;, val:&quot;$94&quot;, valColor:&quot;var(--amber)&quot;},
+  {label:&quot;Last cycle actual waste&quot;, val:&quot;$118&quot;},
+  {label:&quot;Network avg (comparable stores)&quot;, val:&quot;$284&quot;},
+  {label:&quot;Agent-driven reduction vs. baseline&quot;, val:&quot;−$190/cycle&quot;, valColor:&quot;var(--teal)&quot;},
+  {label:&quot;Spoilage watchlist&quot;, val:&quot;Avocado ⚠&quot;, valColor:&quot;var(--amber)&quot;},
+];
+
+const vendors = {
+  Sysco: {logo:&quot;SY&quot;, items:[], color:&quot;#1e3a5f&quot;},
+  &quot;US Foods&quot;: {logo:&quot;USF&quot;, items:[], color:&quot;#1e2f1e&quot;},
+};
+
+// Calc order quantities
+function calcOrderQty(ing) {
+  const needed = ing.predictedUse + ing.safetyBuffer - ing.onHand;
+  if (needed &lt;= 0) return 0;
+  return Math.ceil(needed / ing.caseSize) * ing.caseSize;
+}
+
+function stockPct(ing) {
+  return Math.min(100, Math.round((ing.onHand / (ing.predictedUse * 0.4)) * 100));
+}
+
+let expandedIng = null;
+
+function renderIngredients() {
+  const grid = document.getElementById(&#x27;ing-grid&#x27;);
+  grid.innerHTML = &#x27;&#x27;;
+  ingredients.forEach((ing, i) =&gt; {
+    const orderQty = calcOrderQty(ing);
+    const pct = stockPct(ing);
+    const meterColor = pct &lt; 25 ? &#x27;var(--red)&#x27; : pct &lt; 50 ? &#x27;var(--amber)&#x27; : &#x27;var(--teal)&#x27;;
+    const urgCls = ing.urgency === &#x27;critical&#x27; ? &#x27;urg-critical&#x27; : ing.urgency === &#x27;low&#x27; ? &#x27;urg-low&#x27; : &#x27;urg-ok&#x27;;
+    const urgLabel = ing.urgency === &#x27;critical&#x27; ? &#x27;⚠ Critical&#x27; : ing.urgency === &#x27;low&#x27; ? &#x27;~ Low stock&#x27; : &#x27;✓ OK&#x27;;
+    const cardUrgClass = ing.urgency === &#x27;critical&#x27; ? &#x27;urgent&#x27; : ing.urgency === &#x27;low&#x27; ? &#x27;low&#x27; : &#x27;&#x27;;
+    const varianceColor = ing.variance.val.startsWith(&#x27;−&#x27;) ? &#x27;var(--amber)&#x27; : &#x27;var(--muted)&#x27;;
+
+    const card = document.createElement(&#x27;div&#x27;);
+    card.className = `ing-card ${cardUrgClass}`;
+
+    card.innerHTML = `
+      &lt;div class=&quot;ing-header&quot; onclick=&quot;toggleIng(${i})&quot;&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;ing-name&quot;&gt;${ing.name}&lt;/div&gt;
+          &lt;div class=&quot;ing-cat&quot;&gt;${ing.cat} · ${ing.vendor}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;ing-cell-label&quot;&gt;On hand&lt;/div&gt;
+          &lt;div class=&quot;ing-cell&quot;&gt;${ing.onHand} ${ing.unit}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;ing-cell-label&quot;&gt;Predicted&lt;/div&gt;
+          &lt;div class=&quot;ing-cell&quot;&gt;${ing.predictedUse} ${ing.unit}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;ing-cell-label&quot;&gt;Safety&lt;/div&gt;
+          &lt;div class=&quot;ing-cell&quot;&gt;${ing.safetyBuffer} ${ing.unit}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;ing-cell-label&quot;&gt;Variance&lt;/div&gt;
+          &lt;div class=&quot;ing-cell&quot; style=&quot;color:${varianceColor}&quot;&gt;${ing.variance.val}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;stock-meter&quot;&gt;
+            &lt;div class=&quot;meter-track&quot;&gt;&lt;div class=&quot;meter-fill&quot; style=&quot;width:${pct}%;background:${meterColor}&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;span class=&quot;urg ${urgCls}&quot;&gt;${urgLabel}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;order-input-wrap&quot;&gt;
+            &lt;input class=&quot;order-input&quot; type=&quot;number&quot; value=&quot;${orderQty}&quot; min=&quot;0&quot; step=&quot;${ing.caseSize}&quot; onclick=&quot;event.stopPropagation()&quot;&gt;
+            &lt;span class=&quot;order-unit&quot;&gt;${ing.unit}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      ${expandedIng === i ? renderIngDetail(ing) : &#x27;&#x27;}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderIngDetail(ing) {
+  const flowHtml = [
+    ...ing.inflows.map(f =&gt; `&lt;div class=&quot;flow-row&quot;&gt;&lt;div class=&quot;flow-icon flow-in&quot;&gt;↓&lt;/div&gt;&lt;span style=&quot;flex:1;color:var(--muted)&quot;&gt;${f.label}&lt;/span&gt;&lt;span style=&quot;font-family:var(--mono);font-size:12px;color:var(--teal)&quot;&gt;${f.val}&lt;/span&gt;&lt;/div&gt;`),
+    ...ing.outflows.map(f =&gt; {
+      const cls = f.type === &#x27;waste&#x27; ? &#x27;flow-waste&#x27; : &#x27;flow-out&#x27;;
+      const ic = f.type === &#x27;waste&#x27; ? &#x27;~&#x27; : &#x27;↑&#x27;;
+      const c = f.type === &#x27;waste&#x27; ? &#x27;var(--amber)&#x27; : &#x27;var(--red)&#x27;;
+      return `&lt;div class=&quot;flow-row&quot;&gt;&lt;div class=&quot;flow-icon ${cls}&quot;&gt;${ic}&lt;/div&gt;&lt;span style=&quot;flex:1;color:var(--muted)&quot;&gt;${f.label}&lt;/span&gt;&lt;span style=&quot;font-family:var(--mono);font-size:12px;color:${c}&quot;&gt;${f.val}&lt;/span&gt;&lt;/div&gt;`;
+    })
+  ].join(&#x27;&#x27;);
+
+  const orderQty = calcOrderQty(ing);
+  const orderCases = orderQty / ing.caseSize;
+  const orderCost = orderCases * ing.casePrice;
+
+  return `
+    &lt;div class=&quot;ing-detail&quot;&gt;
+      &lt;div class=&quot;ing-detail-grid&quot;&gt;
+        &lt;div class=&quot;idet-section&quot;&gt;
+          &lt;div class=&quot;idet-title&quot;&gt;Inventory flows (3-day cycle)&lt;/div&gt;
+          ${flowHtml}
+          &lt;div style=&quot;margin-top:10px;padding-top:8px;border-top:1px solid var(--border)&quot;&gt;
+            &lt;div class=&quot;idet-row&quot;&gt;&lt;div class=&quot;idet-label&quot;&gt;Last physical count&lt;/div&gt;&lt;div class=&quot;idet-val&quot; style=&quot;font-size:12px&quot;&gt;${ing.lastCount}&lt;/div&gt;&lt;/div&gt;
+            &lt;div class=&quot;idet-row&quot;&gt;&lt;div class=&quot;idet-label&quot;&gt;Count method&lt;/div&gt;&lt;div class=&quot;idet-val&quot; style=&quot;font-size:12px;color:var(--muted)&quot;&gt;${ing.countMethod}&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;idet-section&quot;&gt;
+          &lt;div class=&quot;idet-title&quot;&gt;Variance analysis&lt;/div&gt;
+          &lt;div class=&quot;variance-box&quot;&gt;
+            &lt;div class=&quot;var-label&quot;&gt;Theoretical vs. actual variance&lt;/div&gt;
+            &lt;div class=&quot;var-val&quot; style=&quot;color:${ing.variance.val.startsWith(&#x27;−&#x27;) ? &#x27;var(--amber)&#x27; : &#x27;var(--teal)&#x27;}&quot;&gt;${ing.variance.val}&lt;/div&gt;
+            &lt;div class=&quot;var-explain&quot;&gt;${ing.variance.explain}&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div style=&quot;margin-top:10px&quot;&gt;
+            &lt;div class=&quot;idet-row&quot;&gt;&lt;div class=&quot;idet-label&quot;&gt;Demand driver&lt;/div&gt;&lt;div class=&quot;idet-val&quot; style=&quot;font-size:12px;color:var(--teal)&quot;&gt;${ing.driver}&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;idet-section&quot;&gt;
+          &lt;div class=&quot;idet-title&quot;&gt;This order&lt;/div&gt;
+          &lt;div class=&quot;idet-row&quot;&gt;&lt;div class=&quot;idet-label&quot;&gt;Order quantity&lt;/div&gt;&lt;div class=&quot;idet-val&quot;&gt;${orderQty} ${ing.unit}&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;idet-row&quot;&gt;&lt;div class=&quot;idet-label&quot;&gt;Cases&lt;/div&gt;&lt;div class=&quot;idet-val&quot;&gt;${orderCases} × ${ing.caseSize}${ing.unit} case&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;idet-row&quot;&gt;&lt;div class=&quot;idet-label&quot;&gt;Est. cost&lt;/div&gt;&lt;div class=&quot;idet-val&quot;&gt;~$${orderCost.toFixed(0)}&lt;/div&gt;&lt;/div&gt;
+          &lt;div class=&quot;idet-row&quot;&gt;&lt;div class=&quot;idet-label&quot;&gt;Vendor&lt;/div&gt;&lt;div class=&quot;idet-val&quot;&gt;${ing.vendor}&lt;/div&gt;&lt;/div&gt;
+          &lt;div style=&quot;margin-top:8px;padding:8px 10px;background:var(--s2);border-radius:6px;font-size:11px;color:var(--muted);font-family:var(--mono)&quot;&gt;Order qty = (Predicted ${ing.predictedUse} + Safety ${ing.safetyBuffer} − On hand ${ing.onHand}) rounded up to case size ${ing.caseSize}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `;
+}
+
+function toggleIng(i) {
+  expandedIng = expandedIng === i ? null : i;
+  renderIngredients();
+}
+
+function renderSignals() {
+  const el = document.getElementById(&#x27;signals-list&#x27;);
+  signals.forEach(s =&gt; {
+    const div = document.createElement(&#x27;div&#x27;);
+    div.className = &#x27;signal-item&#x27;;
+    div.innerHTML = `&lt;div class=&quot;sig-row&quot;&gt;&lt;div class=&quot;sig-ico&quot; style=&quot;background:${s.bg};font-size:14px&quot;&gt;${s.icon}&lt;/div&gt;&lt;div class=&quot;sig-body&quot;&gt;&lt;div class=&quot;sig-title&quot;&gt;${s.title}&lt;/div&gt;&lt;div class=&quot;sig-text&quot;&gt;${s.text}&lt;/div&gt;&lt;div class=&quot;sig-impact&quot; style=&quot;color:${s.color}&quot;&gt;${s.impact}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;`;
+    el.appendChild(div);
+  });
+}
+
+function renderWaste() {
+  const el = document.getElementById(&#x27;waste-summary&#x27;);
+  waste.forEach(w =&gt; {
+    const div = document.createElement(&#x27;div&#x27;);
+    div.className = &#x27;waste-row&#x27;;
+    div.innerHTML = `&lt;span class=&quot;waste-label&quot;&gt;${w.label}&lt;/span&gt;&lt;span class=&quot;waste-val&quot; style=&quot;color:${w.valColor||&#x27;var(--text)&#x27;}&quot;&gt;${w.val}&lt;/span&gt;`;
+    el.appendChild(div);
+  });
+}
+
+function renderPO() {
+  // Build vendor groups
+  const groups = {};
+  ingredients.forEach(ing =&gt; {
+    const qty = calcOrderQty(ing);
+    if (qty &gt; 0) {
+      if (!groups[ing.vendor]) groups[ing.vendor] = [];
+      groups[ing.vendor].push({name:ing.name, qty, unit:ing.unit, cases:qty/ing.caseSize, cost:(qty/ing.caseSize)*ing.casePrice});
+    }
+  });
+
+  const el = document.getElementById(&#x27;po-list&#x27;);
+  Object.entries(groups).forEach(([vendor, items]) =&gt; {
+    const total = items.reduce((a,c)=&gt;a+c.cost,0);
+    const logoMap = {Sysco:&#x27;SY&#x27;,&#x27;US Foods&#x27;:&#x27;USF&#x27;};
+    const div = document.createElement(&#x27;div&#x27;);
+    div.className = &#x27;po-card&#x27;;
+    div.innerHTML = `
+      &lt;div class=&quot;po-card-head&quot;&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;po-vendor&quot;&gt;${vendor}&lt;/div&gt;
+          &lt;div class=&quot;po-vendor-items&quot;&gt;${items.length} items · next delivery Wed 6am&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;po-total&quot;&gt;$${total.toFixed(0)}&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;po-items&quot;&gt;
+        ${items.map(it=&gt;`&lt;div class=&quot;po-item-row&quot;&gt;&lt;span class=&quot;po-item-name&quot;&gt;${it.name}&lt;/span&gt;&lt;span class=&quot;po-item-qty&quot;&gt;${it.qty} ${it.unit}&lt;/span&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}
+      &lt;/div&gt;
+      &lt;div class=&quot;po-actions&quot;&gt;
+        &lt;button class=&quot;po-btn po-btn-primary&quot; id=&quot;btn-${vendor.replace(&#x27; &#x27;,&#x27;_&#x27;)}&quot; onclick=&quot;sendVendor(&#x27;${vendor}&#x27;)&quot;&gt;Send to ${vendor} ↗&lt;/button&gt;
+      &lt;/div&gt;
+    `;
+    el.appendChild(div);
+  });
+}
+
+function sendVendor(vendor) {
+  const btn = document.getElementById(`btn-${vendor.replace(&#x27; &#x27;,&#x27;_&#x27;)}`);
+  btn.textContent = &#x27;Sending...&#x27;;
+  btn.disabled = true;
+  setTimeout(() =&gt; {
+    btn.textContent = `✓ Order sent to ${vendor}`;
+    btn.classList.add(&#x27;sent&#x27;);
+  }, 900);
+}
+
+function sendAll() {
+  Object.keys({Sysco:1,&#x27;US Foods&#x27;:1}).forEach(v =&gt; {
+    const btn = document.getElementById(`btn-${v.replace(&#x27; &#x27;,&#x27;_&#x27;)}`);
+    if (btn &amp;&amp; !btn.classList.contains(&#x27;sent&#x27;)) sendVendor(v);
+  });
+}
+
+function refreshInventory() {
+  const el = document.querySelector(&#x27;.sec-sub&#x27;);
+  el.textContent = &#x27;Syncing inventory...&#x27;;
+  setTimeout(()=&gt;{el.textContent=&#x27;Next Sysco delivery: Wed Apr 16, 6am · Order deadline: tonight 9pm · Perpetual inventory updated just now&#x27;},1200);
+}
+
+renderIngredients();
+renderSignals();
+renderWaste();
+renderPO();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" title="Inventory Agent Demo" loading="lazy"></iframe>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-note">
+    Loop AI · Internal product exploration<br>
+    All prototypes are interactive — scroll within each demo, click rows to expand, toggle modes.<br>
+    Built as working POCs to communicate product direction, not engineering specs.
+  </div>
+</footer>
+
+</body>
+</html>
